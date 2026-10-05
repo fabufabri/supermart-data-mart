@@ -178,6 +178,15 @@ La granularidad definida para `fact_ventas` es:
 
 Esta definición permite analizar las ventas desde diferentes perspectivas: tiempo, producto, ubicación y cliente.
 
+La comprobación realizada sobre el dataset mostró:
+
+```text
+Total de registros: 9.994
+Order ID únicos: 9.994
+```
+
+Por lo tanto, cada registro de la tabla de hechos corresponde a una operación de venta del dataset original.
+
 ---
 
 ## 7. Creación de tablas
@@ -292,7 +301,7 @@ La dimensión contiene las combinaciones de:
 Se cargaron:
 
 ```text
-23 productos/categorías-subcategorías
+23 combinaciones de categoría y subcategoría
 ```
 
 ### Dimensión de ubicación
@@ -306,7 +315,7 @@ La dimensión contiene:
 Se cargaron:
 
 ```text
-97 ubicaciones
+97 combinaciones de ubicación
 ```
 
 ### Dimensión de cliente
@@ -428,7 +437,7 @@ Se creó el script:
 sql/04_views.sql
 ```
 
-El cual contiene las vistas utilizadas posteriormente por la aplicación.
+El cual contiene **cinco vistas SQL** utilizadas como fuentes iniciales para los componentes analíticos del dashboard.
 
 ### 13.1 `vw_resumen_ventas`
 
@@ -438,6 +447,8 @@ Permite obtener:
 - Ventas totales.
 - Ganancia total.
 - Descuento promedio.
+
+Esta vista también sirve como consulta de resumen y apoyo para la validación de los indicadores generales.
 
 ### 13.2 `vw_ventas_categoria`
 
@@ -470,6 +481,61 @@ Ejemplo de resultados obtenidos para 2015:
 | Mayo | 148 | 218.740,00 | 50.899,84 |
 | Junio | 137 | 209.191,00 | 51.276,99 |
 
+### 13.4 `vw_kpi_ventas`
+
+Esta vista concentra los principales indicadores que serán utilizados por las tarjetas KPI del dashboard:
+
+- Cantidad de ventas.
+- Ventas totales.
+- Ganancia total.
+- Descuento promedio.
+
+Resultado validado:
+
+| Indicador | Resultado |
+|---|---:|
+| Cantidad de ventas | 9.994 |
+| Ventas totales | 14.956.982,00 |
+| Ganancia total | 3.747.121,20 |
+| Descuento promedio | 0,2268 |
+
+### 13.5 `vw_detalle_ventas`
+
+Esta vista permite obtener el detalle analítico agrupado por categoría y subcategoría.
+
+Incluye:
+
+- Categoría.
+- Subcategoría.
+- Cantidad de ventas.
+- Ventas totales.
+- Ganancia total.
+- Descuento promedio.
+
+Resultado validado con la consulta:
+
+```text
+SELECT * FROM vw_detalle_ventas LIMIT 20;
+```
+
+La vista devuelve registros correspondientes a las diferentes combinaciones de categoría y subcategoría existentes en `dim_producto`.
+
+Las cinco vistas fueron verificadas en PostgreSQL mediante:
+
+```text
+\dv
+```
+
+Resultado:
+
+```text
+vw_detalle_ventas
+vw_kpi_ventas
+vw_resumen_ventas
+vw_ventas_categoria
+vw_ventas_tiempo
+```
+
 ---
 
 ## 14. Mockup del dashboard
@@ -490,7 +556,36 @@ El mockup contempla los elementos mínimos solicitados:
 - Tabla o componente de detalle.
 - Organización general de las vistas.
 
-Los componentes fueron planteados para representar los indicadores que posteriormente serán alimentados mediante PostgreSQL.
+### Componentes representados
+
+**Filtros:**
+
+- Año.
+- Mes.
+- Categoría.
+- Región.
+
+**KPI:**
+
+- Ventas totales.
+- Ganancia total.
+- Cantidad de ventas.
+
+**Gráficos:**
+
+- Ventas por categoría.
+- Evolución mensual de ventas.
+
+**Detalle:**
+
+- Categoría.
+- Subcategoría.
+- Ventas.
+- Ganancia.
+- Descuento promedio.
+- Cantidad de ventas.
+
+El mockup es una representación visual previa a la implementación de la aplicación analítica. Los valores y componentes mostrados sirven como referencia del diseño y de la estructura esperada; la versión funcional deberá consultar directamente PostgreSQL.
 
 ---
 
@@ -498,12 +593,33 @@ Los componentes fueron planteados para representar los indicadores que posterior
 
 | Componente | Pregunta / KPI | Filtros | Origen de datos | Objeto SQL |
 |---|---|---|---|---|
-| KPI Ventas totales | ¿Cuál es el valor total de ventas? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_resumen_ventas` |
-| KPI Ganancia total | ¿Cuál es la ganancia obtenida? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_resumen_ventas` |
-| KPI Cantidad de ventas | ¿Cuántas ventas se realizaron? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_resumen_ventas` |
-| Ventas por categoría | ¿Qué categorías generan más ventas? | Año, región | `fact_ventas` + `dim_producto` | `vw_ventas_categoria` |
-| Evolución mensual | ¿Cómo evolucionan las ventas? | Año, categoría, región | `fact_ventas` + `dim_fecha` | `vw_ventas_tiempo` |
-| Tabla de detalle | ¿Cómo se distribuyen las ventas por categoría y subcategoría? | Año, mes, categoría, región | `fact_ventas` + dimensiones | Consulta SQL |
+| KPI: Ventas totales | ¿Cuál es el valor total de las ventas? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_kpi_ventas` |
+| KPI: Ganancia total | ¿Cuál es la ganancia total obtenida? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_kpi_ventas` |
+| KPI: Cantidad de ventas | ¿Cuántas operaciones de venta se realizaron? | Año, mes, categoría, región | `fact_ventas` + dimensiones | `vw_kpi_ventas` |
+| Gráfico: Ventas por categoría | ¿Qué categorías generan mayor volumen de ventas? | Año, región | `fact_ventas` + `dim_producto` | `vw_ventas_categoria` |
+| Gráfico: Evolución mensual de ventas | ¿Cómo evolucionan las ventas y ganancias a través del tiempo? | Año, categoría, región | `fact_ventas` + `dim_fecha` | `vw_ventas_tiempo` |
+| Tabla de detalle | ¿Cómo se distribuyen las ventas y ganancias por categoría y subcategoría? | Año, mes, categoría, región | `fact_ventas` + `dim_producto` + `dim_fecha` + `dim_ubicacion` | `vw_detalle_ventas` |
+
+### 15.1 Relación entre filtros y dimensiones
+
+Los filtros definidos en el mockup corresponden a atributos almacenados en las dimensiones del modelo dimensional:
+
+- **Año:** `dim_fecha.anio`
+- **Mes:** `dim_fecha.mes`
+- **Categoría:** `dim_producto.categoria`
+- **Región:** `dim_ubicacion.region`
+
+En esta etapa, los filtros se encuentran definidos en el mockup como parte de la propuesta de interacción del dashboard. La aplicación analítica de la siguiente fase deberá utilizar estos atributos de las dimensiones para filtrar los datos consultados desde PostgreSQL.
+
+### 15.2 Correspondencia con las vistas SQL
+
+Las vistas SQL fueron diseñadas como fuentes iniciales para los componentes analíticos del mockup:
+
+- `vw_kpi_ventas`: KPI principales.
+- `vw_ventas_categoria`: gráfico de ventas por categoría.
+- `vw_ventas_tiempo`: evolución temporal.
+- `vw_detalle_ventas`: tabla de detalle.
+- `vw_resumen_ventas`: resumen general y validación de indicadores.
 
 ---
 
@@ -524,12 +640,12 @@ Los componentes fueron planteados para representar los indicadores que posterior
 | Carga de datos reales | 9.994 registros en `fact_ventas` |
 | Validación de registros | `03_validation.sql` |
 | Validación de integridad | `03_validation.sql` |
-| Vistas/funciones SQL | 3 vistas SQL |
+| Vistas/funciones SQL | 5 vistas SQL en `04_views.sql` |
 | Mockup | `docs/mockup/supermart_dashboard_mockup.html` |
-| 3 KPI | Matriz de trazabilidad |
-| Filtros | Mockup y matriz |
-| 2 gráficos | Mockup |
-| Tabla de detalle | Mockup |
+| 3 KPI | Mockup y matriz de trazabilidad |
+| Filtros | Mockup y matriz de trazabilidad |
+| 2 gráficos | Mockup y matriz de trazabilidad |
+| Tabla de detalle | Mockup y `vw_detalle_ventas` |
 | Matriz de trazabilidad | Sección 15 |
 | Respaldo del proyecto | Repositorio Git/GitHub |
 
@@ -587,10 +703,11 @@ Repositorio:
 https://github.com/fabufabri/supermart-data-mart
 ```
 
-Commit inicial:
+### Commits principales
 
 ```text
 573ae61 - Construccion inicial del Supermart Data Mart
+981a65e - Documentacion del Entregable 2
 ```
 
 La rama principal utilizada es:
@@ -616,6 +733,16 @@ El Entregable 2 permitió transformar el dataset real de Supermart en un Data Ma
 
 Se implementó un modelo estrella con una tabla de hechos y cuatro dimensiones, se cargaron 9.994 registros de ventas y se realizaron validaciones de calidad e integridad.
 
-Además, se construyeron vistas SQL para el análisis por resumen, categoría y tiempo, y se elaboró un mockup del dashboard que relaciona los KPI y componentes visuales con los datos almacenados.
+Además, se construyeron cinco vistas SQL para el análisis por resumen, indicadores, categoría, tiempo y detalle, y se elaboró un mockup del dashboard que relaciona los KPI y componentes visuales con los datos almacenados.
 
-De esta manera, el proyecto cuenta con una base preparada para la siguiente etapa: desarrollar la aplicación analítica que consumirá la información del Data Mart.
+De esta manera, el proyecto cuenta con una base preparada para la siguiente etapa: desarrollar la aplicación analítica que consumirá la información del Data Mart y aplicará los filtros definidos sobre las dimensiones correspondientes.
+
+La pregunta planteada para esta fase queda respondida de la siguiente manera:
+
+> **¿Cómo voy a almacenar, consultar y presentar la información?**
+
+**Almacenar:** mediante un modelo dimensional tipo estrella en PostgreSQL, compuesto por `fact_ventas` y cuatro dimensiones.
+
+**Consultar:** mediante SQL, consultas de validación y cinco vistas analíticas.
+
+**Presentar:** mediante el mockup del dashboard, que define los KPI, filtros, gráficos y tabla de detalle que serán implementados en la siguiente etapa.
