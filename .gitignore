@@ -1,0 +1,26 @@
+# Git
+.git/
+
+# PostgreSQL / Docker
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+
+# Sistema Windows
+Thumbs.db
+Desktop.ini
+
+# Archivos de editores
+.vscode/
+.idea/
+
+# Archivos Java
+*.class
+target/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
