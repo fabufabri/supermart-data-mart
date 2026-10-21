@@ -23,4 +23,10 @@ target/
 
 # Archivos temporales de Python
 __pycache__/
-*.pyc
+*.pyc.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+backups/

@@ -3,30 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supermart - Dashboard de Ventas | Mockup</title>
+<meta name="theme-color" content="#142b4a">
+<title>Supermart BI | Dashboard de ventas</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172b4d}.dashboard{max-width:1500px;margin:24px auto;padding:0 20px 30px}.header{background:#12345b;color:#fff;border-radius:12px;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:18px}.brand-icon{font-size:38px}.brand h1{margin:0;font-size:30px}.brand span{display:block;margin-top:4px;opacity:.85;font-size:14px}.header-title{font-size:28px;font-weight:700;border-left:1px solid #ffffff80;padding-left:24px}.filters{margin-top:12px;background:#fff;border:1px solid #cfe0f3;border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:120px repeat(4,1fr);gap:14px;align-items:end}.filters-title{font-size:20px;font-weight:700;padding-bottom:10px}label{display:block;font-weight:700;margin-bottom:6px}select{width:100%;padding:11px 12px;border:1px solid #b9cbe0;border-radius:7px;background:#fff;color:#172b4d;font-size:14px}.kpis{margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.kpi,.card{background:#fff;border:1px solid #d7e2ef;border-radius:12px}.kpi{padding:24px;min-height:135px}.kpi-title{font-size:15px;font-weight:700;text-transform:uppercase;color:#53657d}.kpi-value{margin-top:12px;font-size:32px;font-weight:800;color:#12345b}.charts{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{padding:20px}.card h2{margin:0;font-size:20px}.card p{margin:6px 0 18px;color:#69798e;font-size:14px}.bars{display:flex;flex-direction:column;gap:12px}.bar-row{display:grid;grid-template-columns:150px 1fr 100px;gap:10px;align-items:center;font-size:13px}.bar-track{height:22px;background:#e9eef5;border-radius:5px;overflow:hidden}.bar{height:100%;background:#2878d4;border-radius:5px}.bar-value{text-align:right;font-weight:700}.line-chart{width:100%;height:280px;border:1px solid #edf1f6;border-radius:8px;padding:8px;background:#fcfdff}.line-chart svg{width:100%;height:100%}.detail{margin-top:14px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#12345b;color:#fff;text-align:left;padding:11px}td{padding:10px 11px;border-bottom:1px solid #e3e9f1}tr:nth-child(even){background:#f7f9fc}.note{margin-top:16px;font-size:12px;color:#66758a}@media(max-width:900px){.header{flex-direction:column;align-items:flex-start}.header-title{border-left:0;padding-left:0}.filters{grid-template-columns:1fr 1fr}.filters-title{grid-column:1/-1}.kpis,.charts{grid-template-columns:1fr}}@media(max-width:600px){.filters{grid-template-columns:1fr}.bar-row{grid-template-columns:110px 1fr 80px}.brand h1{font-size:24px}.header-title{font-size:22px}}
+:root{
+  --navy:#142b4a;--navy-2:#1c3d63;--blue:#2878d0;--blue-soft:#eaf3ff;
+  --green:#208568;--green-soft:#e8f6f0;--amber:#c98226;--amber-soft:#fff4e5;
+  --ink:#1d2d42;--muted:#718096;--line:#e3eaf2;--canvas:#f3f6fa;--white:#fff;
+  --shadow:0 8px 24px rgba(21,45,75,.055);--radius:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;line-height:1.5}
+button,select{font:inherit}
+.dashboard{max-width:1500px;margin:0 auto;padding:28px 28px 36px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:22px;background:linear-gradient(120deg,var(--navy),#1b426b);color:#fff;border-radius:20px;padding:25px 30px;box-shadow:0 12px 28px rgba(20,43,74,.16);position:relative;overflow:hidden}
+.topbar:after{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(255,255,255,.09);border-radius:50%;right:150px;top:-175px;box-shadow:0 0 0 35px rgba(255,255,255,.025),0 0 0 70px rgba(255,255,255,.02);pointer-events:none}
+.brand{display:flex;align-items:center;gap:15px;min-width:0;position:relative;z-index:1}
+.brand-mark{width:52px;height:52px;display:grid;place-items:center;border-radius:15px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);font-size:28px;flex-shrink:0}
+.brand h1{margin:0;font-size:25px;letter-spacing:.13em;font-weight:800}
+.brand p{margin:3px 0 0;color:#c6d7e9;font-size:12px;letter-spacing:.04em}
+.header-right{position:relative;z-index:1;text-align:right}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#a9c6e4}
+.header-right h2{font-size:23px;line-height:1.25;margin:5px 0 4px;color:#fff}
+.header-right p{margin:0;color:#c6d7e9;font-size:12px}
+.section{margin-top:20px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 2px 11px}
+.section-heading h2{font-size:15px;letter-spacing:.01em;margin:0;font-weight:750;color:var(--navy)}
+.section-heading p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.mini-label{display:inline-flex;align-items:center;gap:7px;color:#5b6d83;font-size:11px;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 11px;white-space:nowrap}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#2aa77c;display:inline-block}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.filters{padding:18px 20px 20px;display:grid;grid-template-columns:1.1fr repeat(4,minmax(120px,1fr)) auto;gap:15px;align-items:end}
+.filters-intro{align-self:center}
+.filters-intro .filter-icon{width:36px;height:36px;border-radius:11px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:18px;margin-bottom:8px}
+.filters-intro h3{margin:0;color:var(--navy);font-size:14px}
+.filters-intro p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.field label{display:block;font-size:11px;color:#53657a;font-weight:750;margin:0 0 7px}
+select{width:100%;height:42px;padding:0 34px 0 12px;border:1px solid #d8e1ec;border-radius:10px;background:#fbfcfe;color:#293b52;outline:none;transition:border-color .2s,box-shadow .2s;cursor:pointer}
+select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(40,120,208,.12)}
+.reset-btn{height:42px;border:1px solid #d8e1ec;background:#fff;color:#52657b;border-radius:10px;padding:0 13px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;transition:.2s}
+.reset-btn:hover{background:#f4f8fd;border-color:#b7cce2;color:var(--navy)}
+.download-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid #176b55;border-radius:10px;background:#208568;color:#fff;font-weight:750;font-size:12px;white-space:nowrap;cursor:pointer;transition:background .2s,transform .2s;box-shadow:0 4px 10px rgba(32,133,104,.13)}.download-btn:hover{background:#176b55;transform:translateY(-1px)}.download-btn:focus-visible{outline:3px solid rgba(32,133,104,.25);outline-offset:2px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.kpi{padding:21px 23px;position:relative;overflow:hidden;min-height:145px}
+.kpi:after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-32px;bottom:-42px;background:var(--tint);opacity:.8}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1}
+.kpi-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#64758a;font-weight:800}
+.kpi-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--tint);color:var(--accent);font-size:20px}
+.kpi-value{position:relative;z-index:1;margin-top:14px;font-size:clamp(24px,2.2vw,32px);line-height:1.1;font-weight:800;letter-spacing:-.035em;color:var(--navy);font-variant-numeric:tabular-nums}
+.kpi-foot{position:relative;z-index:1;margin-top:8px;font-size:11px;color:var(--muted)}
+.kpi-blue{--accent:var(--blue);--tint:var(--blue-soft)}.kpi-green{--accent:var(--green);--tint:var(--green-soft)}.kpi-amber{--accent:var(--amber);--tint:var(--amber-soft)}
+.charts{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:16px}
+.card{padding:22px;min-width:0}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:20px}
+.card-head h3{margin:0;font-size:15px;font-weight:800;color:var(--navy)}
+.card-head p{margin:5px 0 0;font-size:12px;color:var(--muted)}
+.chart-tag{font-size:10px;font-weight:800;letter-spacing:.04em;color:#62748b;background:#f4f7fb;border:1px solid #e6ecf3;border-radius:7px;padding:5px 8px;white-space:nowrap}
+.bars{display:flex;flex-direction:column;gap:15px}
+.bar-row{display:grid;grid-template-columns:minmax(112px,145px) minmax(50px,1fr) 88px;align-items:center;gap:12px}
+.bar-label{font-size:11px;color:#506177;font-weight:650}
+.bar-track{height:10px;border-radius:999px;background:#edf2f7;overflow:hidden}
+.bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#2878d0,#5ca3ee);min-width:2px}
+.bar-value{text-align:right;font-size:11px;color:#2c3e55;font-weight:800;font-variant-numeric:tabular-nums}
+.chart-foot{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #edf1f6;margin-top:20px;padding-top:13px;color:var(--muted);font-size:10px}
+.line-chart{width:100%;height:270px;display:block;overflow:visible}
+.grid-line{stroke:#e8eef5;stroke-width:1}.axis-line{stroke:#cbd6e3;stroke-width:1.2}.axis-label{fill:#8290a2;font-size:10px}.series-sales{fill:none;stroke:#2878d0;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}.series-profit{fill:none;stroke:#e59a3a;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}.point-sales{fill:#fff;stroke:#2878d0;stroke-width:2.5}.point-profit{fill:#fff;stroke:#e59a3a;stroke-width:2.5}
+.legend{display:flex;align-items:center;gap:15px;margin-top:6px;color:#607188;font-size:11px}.legend span{display:flex;align-items:center;gap:6px}.legend i{display:inline-block;width:18px;height:3px;border-radius:3px}.legend .sales-key{background:#2878d0}.legend .profit-key{background:#e59a3a}
+.detail-card{padding:0;overflow:hidden}.detail-header{padding:22px 22px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px}.detail-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.detail-header h3{margin:0;font-size:15px;color:var(--navy)}.detail-header p{margin:5px 0 0;color:var(--muted);font-size:12px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}thead th{background:#f4f7fb;color:#607188;text-transform:uppercase;letter-spacing:.045em;font-size:10px;text-align:left;padding:13px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}tbody td{padding:14px 20px;border-bottom:1px solid #edf1f6;color:#44566c;font-variant-numeric:tabular-nums}tbody tr:nth-child(even){background:#fbfcfe}tbody tr:hover{background:#f2f7fd}.category-pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:6px;background:#eef5ff;color:#2868ad;font-weight:750;font-size:10px}.num{text-align:right}.table-note{padding:14px 20px;background:#fbfcfe;color:#7b899b;font-size:10px}
+.footer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:17px 3px 0;color:#8290a2;font-size:10px}.footer strong{color:#61748b}
+@media(max-width:1120px){.filters{grid-template-columns:repeat(4,minmax(0,1fr))}.filters-intro{grid-column:1/-1;display:flex;align-items:center;gap:10px}.filters-intro .filter-icon{margin:0}.filters-intro p{display:none}.reset-btn{width:100%}.charts{grid-template-columns:1fr}.bar-row{grid-template-columns:150px minmax(50px,1fr) 100px}}
+@media(max-width:700px){.dashboard{padding:14px 12px 24px}.topbar{padding:20px;border-radius:15px;align-items:flex-start;flex-direction:column}.header-right{text-align:left}.header-right h2{font-size:20px}.brand h1{font-size:21px}.filters{padding:16px;grid-template-columns:1fr 1fr;gap:12px}.filters-intro{grid-column:1/-1}.field{min-width:0}.reset-btn{grid-column:1/-1}.kpis{grid-template-columns:1fr;gap:12px}.kpi{min-height:125px;padding:19px}.kpi-value{font-size:28px}.card{padding:17px}.bar-row{grid-template-columns:112px minmax(30px,1fr) 76px;gap:8px}.bar-label,.bar-value{font-size:10px}.line-chart{height:230px}.detail-header{padding:18px;flex-direction:column;align-items:flex-start}.detail-actions{width:100%;justify-content:space-between}.footer{flex-direction:column;align-items:flex-start}}
+@media(max-width:390px){.filters{grid-template-columns:1fr}.filters-intro,.reset-btn{grid-column:auto}.bar-row{grid-template-columns:100px minmax(24px,1fr) 70px}.brand-mark{width:44px;height:44px}.brand h1{font-size:19px}}
 </style>
 </head>
 <body>
 <main class="dashboard">
-<header class="header"><div class="brand"><div class="brand-icon">🛒</div><div><h1>SUPERMART</h1><span>Supermart Grocery Sales</span></div></div><div class="header-title">Dashboard de Ventas</div></header>
-<section class="filters"><div class="filters-title">FILTROS</div><div><label>Año</label><select><option>Todos</option><option>2015</option><option>2016</option><option>2017</option><option>2018</option></select></div><div><label>Mes</label><select><option>Todos</option><option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option></select></div><div><label>Categoría</label><select><option>Todas</option><option>Eggs, Meat & Fish</option><option>Snacks</option><option>Food Grains</option><option>Bakery</option><option>Fruits & Veggies</option><option>Beverages</option><option>Oil & Masala</option></select></div><div><label>Región</label><select><option>Todas</option><option>Central</option><option>East</option><option>South</option><option>West</option></select></div></section>
-<section class="kpis"><article class="kpi"><div class="kpi-title">Ventas totales</div><div class="kpi-value">$14.956.982,00</div></article><article class="kpi"><div class="kpi-title">Ganancia total</div><div class="kpi-value">$3.747.121,20</div></article><article class="kpi"><div class="kpi-title">Cantidad de ventas</div><div class="kpi-value">9.994</div></article></section>
-<section class="charts">
-<article class="card"><h2>Ventas por categoría</h2><p>Total de ventas por categoría de producto</p><div class="bars">
-<div class="bar-row"><span>Eggs, Meat & Fish</span><div class="bar-track"><div class="bar" style="width:100%"></div></div><span class="bar-value">$2.267.401</span></div>
-<div class="bar-row"><span>Snacks</span><div class="bar-track"><div class="bar" style="width:98.68%"></div></div><span class="bar-value">$2.237.546</span></div>
-<div class="bar-row"><span>Food Grains</span><div class="bar-track"><div class="bar" style="width:93.29%"></div></div><span class="bar-value">$2.115.272</span></div>
-<div class="bar-row"><span>Bakery</span><div class="bar-track"><div class="bar" style="width:93.16%"></div></div><span class="bar-value">$2.112.281</span></div>
-<div class="bar-row"><span>Fruits & Veggies</span><div class="bar-track"><div class="bar" style="width:92.65%"></div></div><span class="bar-value">$2.100.727</span></div>
-<div class="bar-row"><span>Beverages</span><div class="bar-track"><div class="bar" style="width:91.97%"></div></div><span class="bar-value">$2.085.313</span></div>
-<div class="bar-row"><span>Oil & Masala</span><div class="bar-track"><div class="bar" style="width:89.90%"></div></div><span class="bar-value">$2.038.442</span></div>
-</div></article>
-<article class="card"><h2>Evolución mensual de ventas</h2><p>Ventas y ganancia por mes</p><div class="line-chart"><svg viewBox="0 0 700 280" preserveAspectRatio="none"><line x1="55" y1="25" x2="55" y2="235" stroke="#cbd5e1"/><line x1="55" y1="235" x2="675" y2="235" stroke="#cbd5e1"/><line x1="55" y1="185" x2="675" y2="185" stroke="#edf1f6"/><line x1="55" y1="135" x2="675" y2="135" stroke="#edf1f6"/><line x1="55" y1="85" x2="675" y2="85" stroke="#edf1f6"/><line x1="55" y1="35" x2="675" y2="35" stroke="#edf1f6"/><polyline points="55,180 105,200 155,150 205,175 255,135 305,145 355,115 405,130 455,95 505,110 555,75 605,90 655,45" fill="none" stroke="#2878d4" stroke-width="4"/><polyline points="55,215 105,220 155,195 205,205 255,180 305,190 355,165 405,175 455,145 505,160 555,125 605,140 655,110" fill="none" stroke="#ef7d22" stroke-width="4"/><text x="55" y="260" font-size="11">2015</text><text x="205" y="260" font-size="11">2016</text><text x="355" y="260" font-size="11">2017</text><text x="505" y="260" font-size="11">2018</text><text x="570" y="25" font-size="12" fill="#2878d4">● Ventas</text><text x="570" y="45" font-size="12" fill="#ef7d22">● Ganancia</text></svg></div></article>
-</section>
-<section class="card detail"><h2>Detalle de ventas por categoría y subcategoría</h2><p>Componente de detalle previsto para el dashboard.</p><div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Subcategoría</th><th>Ventas</th><th>Ganancia</th><th>Descuento promedio</th><th>Cantidad de ventas</th></tr></thead><tbody><tr><td>Bakery</td><td>Cakes</td><td>$1.247.320,00</td><td>$312.450,20</td><td>0,18</td><td>842</td></tr><tr><td>Bakery</td><td>Breads & Buns</td><td>$1.047.000,00</td><td>$286.120,50</td><td>0,21</td><td>710</td></tr><tr><td>Beverages</td><td>Soft Drinks</td><td>$856.340,00</td><td>$209.870,30</td><td>0,22</td><td>512</td></tr><tr><td>Food Grains</td><td>Rice</td><td>$1.320.450,00</td><td>$340.120,70</td><td>0,20</td><td>920</td></tr><tr><td>Fruits & Veggies</td><td>Fresh Fruits</td><td>$1.250.560,00</td><td>$315.220,90</td><td>0,19</td><td>845</td></tr></tbody></table></div><div class="note">Mockup académico. Los valores mostrados en la tabla son ilustrativos y tienen como finalidad representar el diseño visual del componente de detalle. 
-    En la aplicación analítica funcional, estos datos serán obtenidos dinámicamente desde PostgreSQL mediante los objetos SQL definidos en el Data Mart..</div></section>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">🛒</div>
+      <div><h1>SUPERMART</h1><p>SUPER MART GROCERY SALES · RETAIL ANALYTICS</p></div>
+    </div>
+    <div class="header-right">
+      <div class="eyebrow">Business intelligence</div>
+      <h2>Dashboard de ventas</h2>
+      <p>Visión general del rendimiento comercial</p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="filters-heading">
+    <div class="section-heading"><div><h2 id="filters-heading">Explorar información</h2><p>Selecciona criterios para delimitar el análisis</p></div><span class="mini-label"><i class="status-dot"></i> Panel de filtros</span></div>
+    <div class="panel filters">
+      <div class="filters-intro"><div class="filter-icon" aria-hidden="true">☷</div><div><h3>Filtros</h3><p>Personaliza la vista</p></div></div>
+      <div class="field"><label for="year">Año</label><select id="year"><option>Todos</option><option>2015</option><option>2016</option><option>2017</option><option>2018</option></select></div>
+      <div class="field"><label for="month">Mes</label><select id="month"><option>Todos</option><option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option><option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option><option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option></select></div>
+      <div class="field"><label for="category">Categoría</label><select id="category"><option>Todas</option><option>Eggs, Meat &amp; Fish</option><option>Snacks</option><option>Food Grains</option><option>Bakery</option><option>Fruits &amp; Veggies</option><option>Beverages</option><option>Oil &amp; Masala</option></select></div>
+      <div class="field"><label for="region">Región</label><select id="region"><option>Todas</option><option>Central</option><option>East</option><option>South</option><option>West</option></select></div>
+      <button class="reset-btn" id="resetFilters" type="button">↺ Restablecer</button>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="kpi-heading">
+    <div class="section-heading"><div><h2 id="kpi-heading">Indicadores principales</h2><p>Resultados globales del conjunto de datos</p></div><span class="mini-label">3 KPI</span></div>
+    <div class="kpis">
+      <article class="panel kpi kpi-blue"><div class="kpi-top"><div class="kpi-title">Ventas totales</div><div class="kpi-icon" aria-hidden="true">↗</div></div><div class="kpi-value">$14.956.982,00</div><div class="kpi-foot">Importe total de ventas registradas</div></article>
+      <article class="panel kpi kpi-green"><div class="kpi-top"><div class="kpi-title">Ganancia total</div><div class="kpi-icon" aria-hidden="true">◈</div></div><div class="kpi-value">$3.747.121,20</div><div class="kpi-foot">Ganancia acumulada registrada</div></article>
+      <article class="panel kpi kpi-amber"><div class="kpi-top"><div class="kpi-title">Cantidad de ventas</div><div class="kpi-icon" aria-hidden="true">▤</div></div><div class="kpi-value">9.994</div><div class="kpi-foot">Registros de venta en el dataset</div></article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="charts-heading">
+    <div class="section-heading"><div><h2 id="charts-heading">Análisis comercial</h2><p>Comparación por categoría y comportamiento en el tiempo</p></div><span class="mini-label">2 visualizaciones</span></div>
+    <div class="charts">
+      <article class="panel card">
+        <div class="card-head"><div><h3>Ventas por categoría</h3><p>Total de ventas por categoría de producto</p></div><span class="chart-tag">POR CATEGORÍA</span></div>
+        <div class="bars">
+          <div class="bar-row"><span class="bar-label">Eggs, Meat &amp; Fish</span><div class="bar-track"><div class="bar" style="width:100%"></div></div><span class="bar-value">$2.267.401</span></div>
+          <div class="bar-row"><span class="bar-label">Snacks</span><div class="bar-track"><div class="bar" style="width:98.68%"></div></div><span class="bar-value">$2.237.546</span></div>
+          <div class="bar-row"><span class="bar-label">Food Grains</span><div class="bar-track"><div class="bar" style="width:93.29%"></div></div><span class="bar-value">$2.115.272</span></div>
+          <div class="bar-row"><span class="bar-label">Bakery</span><div class="bar-track"><div class="bar" style="width:93.16%"></div></div><span class="bar-value">$2.112.281</span></div>
+          <div class="bar-row"><span class="bar-label">Fruits &amp; Veggies</span><div class="bar-track"><div class="bar" style="width:92.65%"></div></div><span class="bar-value">$2.100.727</span></div>
+          <div class="bar-row"><span class="bar-label">Beverages</span><div class="bar-track"><div class="bar" style="width:91.97%"></div></div><span class="bar-value">$2.085.313</span></div>
+          <div class="bar-row"><span class="bar-label">Oil &amp; Masala</span><div class="bar-track"><div class="bar" style="width:89.90%"></div></div><span class="bar-value">$2.038.442</span></div>
+        </div>
+        <div class="chart-foot"><span>Indicador: ventas totales</span><span>Unidad monetaria ($)</span></div>
+      </article>
+
+      <article class="panel card">
+        <div class="card-head"><div><h3>Evolución mensual de ventas</h3><p>Ventas y ganancia por mes</p></div><span class="chart-tag">2015–2018</span></div>
+        <svg class="line-chart" viewBox="0 0 700 280" preserveAspectRatio="none" role="img" aria-label="Gráfico de líneas ilustrativo de ventas y ganancia entre 2015 y 2018">
+          <line class="axis-line" x1="48" y1="24" x2="48" y2="230"/><line class="axis-line" x1="48" y1="230" x2="680" y2="230"/>
+          <line class="grid-line" x1="48" y1="188" x2="680" y2="188"/><line class="grid-line" x1="48" y1="146" x2="680" y2="146"/><line class="grid-line" x1="48" y1="104" x2="680" y2="104"/><line class="grid-line" x1="48" y1="62" x2="680" y2="62"/><line class="grid-line" x1="48" y1="24" x2="680" y2="24"/>
+          <text class="axis-label" x="12" y="234">0</text><text class="axis-label" x="6" y="192">200k</text><text class="axis-label" x="6" y="150">400k</text><text class="axis-label" x="6" y="108">600k</text><text class="axis-label" x="6" y="66">800k</text>
+          <polyline class="series-sales" points="48,175 100,192 152,148 204,168 256,130 308,139 360,110 412,126 464,90 516,106 568,70 620,84 672,39"/>
+          <polyline class="series-profit" points="48,210 100,215 152,190 204,201 256,176 308,185 360,162 412,173 464,145 516,159 568,127 620,140 672,111"/>
+          <circle class="point-sales" cx="48" cy="175" r="4"/><circle class="point-sales" cx="204" cy="168" r="4"/><circle class="point-sales" cx="360" cy="110" r="4"/><circle class="point-sales" cx="516" cy="106" r="4"/><circle class="point-sales" cx="672" cy="39" r="4"/>
+          <circle class="point-profit" cx="48" cy="210" r="4"/><circle class="point-profit" cx="204" cy="201" r="4"/><circle class="point-profit" cx="360" cy="162" r="4"/><circle class="point-profit" cx="516" cy="159" r="4"/><circle class="point-profit" cx="672" cy="111" r="4"/>
+          <text class="axis-label" x="48" y="251">2015</text><text class="axis-label" x="220" y="251">2016</text><text class="axis-label" x="390" y="251">2017</text><text class="axis-label" x="565" y="251">2018</text>
+        </svg>
+        <div class="legend"><span><i class="sales-key"></i>Ventas</span><span><i class="profit-key"></i>Ganancia</span></div>
+        <div class="chart-foot"><span>Vista temporal ilustrativa del mockup</span><span>Periodo: 2015–2018</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="detail-heading">
+    <div class="section-heading"><div><h2 id="detail-heading">Detalle de ventas</h2><p>Desglose de ventas por categoría y subcategoría</p></div><span class="mini-label">Vista de detalle</span></div>
+    <article class="panel detail-card">
+      <div class="detail-header"><div><h3>Ventas por categoría y subcategoría</h3><p>Ejemplo de presentación tabular para la vista analítica</p></div><div class="detail-actions"><span class="chart-tag">DETALLE</span><button class="download-btn" id="downloadCsv" type="button" aria-label="Descargar tabla de detalle en formato CSV"><span aria-hidden="true">↓</span> Descargar CSV</button></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Subcategoría</th><th class="num">Ventas</th><th class="num">Ganancia</th><th class="num">Descuento promedio</th><th class="num">Cantidad de ventas</th></tr></thead><tbody>
+        <tr><td><span class="category-pill">Bakery</span></td><td>Cakes</td><td class="num">$1.247.320,00</td><td class="num">$312.450,20</td><td class="num">0,18</td><td class="num">842</td></tr>
+        <tr><td><span class="category-pill">Bakery</span></td><td>Breads &amp; Buns</td><td class="num">$1.047.000,00</td><td class="num">$286.120,50</td><td class="num">0,21</td><td class="num">710</td></tr>
+        <tr><td><span class="category-pill">Beverages</span></td><td>Soft Drinks</td><td class="num">$856.340,00</td><td class="num">$209.870,30</td><td class="num">0,22</td><td class="num">512</td></tr>
+        <tr><td><span class="category-pill">Food Grains</span></td><td>Rice</td><td class="num">$1.320.450,00</td><td class="num">$340.120,70</td><td class="num">0,20</td><td class="num">920</td></tr>
+        <tr><td><span class="category-pill">Fruits &amp; Veggies</span></td><td>Fresh Fruits</td><td class="num">$1.250.560,00</td><td class="num">$315.220,90</td><td class="num">0,19</td><td class="num">845</td></tr>
+      </tbody></table></div>
+      <div class="table-note">Mockup académico: la tabla ilustra la presentación del detalle. En la aplicación funcional, los resultados se obtienen desde PostgreSQL.</div>
+    </article>
+  </section>
+
+  <footer class="footer"><span><strong>SUPERMART BI</strong> · Dashboard de análisis comercial</span><span>Diseño de presentación · Modelo visual del Data Mart</span></footer>
 </main>
+<script>
+// Interacción visual del mockup: los filtros no recalculan métricas porque es una maqueta estática.
+document.getElementById('resetFilters').addEventListener('click', function () {
+  document.querySelectorAll('.filters select').forEach(function (select) {
+    select.selectedIndex = 0;
+  });
+});
+
+// Exporta la tabla de detalle visible a un archivo CSV compatible con Excel.
+document.getElementById('downloadCsv').addEventListener('click', function () {
+  const table = document.querySelector('.detail-card table');
+  const rows = Array.from(table.querySelectorAll('tr'));
+  const csv = rows.map(function (row) {
+    return Array.from(row.querySelectorAll('th, td')).map(function (cell) {
+      const value = cell.innerText.trim().replace(/\s+/g, ' ');
+      return '"' + value.replace(/"/g, '""') + '"';
+    }).join(';');
+  }).join('\r\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'supermart_detalle_ventas.csv';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+</script>
 </body>
 </html>
